@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import Router from "Router";
+import Container from "Container";
 import { AuthProvider } from "main/context/AuthContext/AuthContext";
 import { AxiosProvider } from "main/context/AxiosContext/AxiosContext";
 
@@ -11,7 +11,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <AxiosProvider>
-          <Router />
+          <Container />
         </AxiosProvider>
       </AuthProvider>
     </QueryClientProvider>

@@ -20,13 +20,8 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
   const [authState, authDispatch] = useReducer(authReducer, defaultAuthState);
 
   const restoreAuthTokens = async (): Promise<void> => {
-    let accessToken: null | string = null;
-    let refreshToken: null | string = null;
-
-    try {
-      accessToken = localStorage.getItem(AuthTokenKind.ACCESS_TOKEN);
-      refreshToken = localStorage.getItem(AuthTokenKind.REFRESH_TOKEN);
-    } catch (error) {}
+    const accessToken = localStorage.getItem(AuthTokenKind.ACCESS_TOKEN);
+    const refreshToken = localStorage.getItem(AuthTokenKind.REFRESH_TOKEN);
 
     if (accessToken === null || refreshToken === null) {
       authDispatch({
@@ -78,6 +73,7 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
   return (
     <AuthContext.Provider
       value={{
+        isRestoringTokens: authState.isRestoringTokens,
         isAuthenticated: authState.isAuthenticated,
         restoreAuthTokens,
         setAuthTokens,
