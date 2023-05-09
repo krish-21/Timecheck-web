@@ -6,6 +6,7 @@ export interface AuthStateInterface {
 }
 
 export interface AuthContextInterface {
+  isAuthenticated: boolean;
   restoreAuthTokens: () => Promise<void>;
   setAuthTokens: (accessToken: string, refreshToken: string) => Promise<void>;
   removeAuthTokens: () => Promise<void>;

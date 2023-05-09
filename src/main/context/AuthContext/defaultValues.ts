@@ -11,6 +11,8 @@ export const defaultAuthState: AuthStateInterface = {
 };
 
 export const defaultAuthContext: AuthContextInterface = {
+  isAuthenticated: false,
+
   restoreAuthTokens: () => {
     throw new Error("INSIDE DEFAULT restoreAuthTokens!");
   },
