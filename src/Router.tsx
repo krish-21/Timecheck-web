@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import RegisterPage from "main/routes/RegisterPage/RegisterPage";
-import LoginPage from "main/routes/LoginPage/LoginPage";
+import RegisterPage from "main/routes/Authentication/RegisterPage/RegisterPage";
+import LoginPage from "main/routes/Authentication/LoginPage/LoginPage";
 import WatchesPage from "main/routes/WatchesPage/WatchesPage";
 import ErrorPage from "main/routes/ErrorPage/ErrorPage";
 

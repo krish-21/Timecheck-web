@@ -12,7 +12,6 @@
   "bugs": {
     "url": "https://github.com/krish-21/Timecheck-Web/issues"
   },
-  "homepage": "https://github.com/krish-21/Timecheck-Web#readme",
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
