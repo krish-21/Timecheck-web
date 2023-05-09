@@ -20,3 +20,17 @@ export const usePostRegisterMutation = (): UseMutationResult<
     },
   });
 };
+
+export const usePostLoginMutation = (): UseMutationResult<
+  AuthResponse,
+  unknown,
+  AuthMutationData,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ["login", "auth"],
+    mutationFn: async (authData: AuthMutationData) => {
+      return authService.postLogin(authData.username, authData.password);
+    },
+  });
+};
