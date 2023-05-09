@@ -1,0 +1,16 @@
+{
+  // use prettier as defualt formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // format the document when saved
+  "editor.formatOnSave": true,
+
+  // The number of spaces a tab is equal to.
+  "editor.tabSize": 2,
+
+  // Insert spaces when pressing Tab.
+  "editor.insertSpaces": true,
+
+  // use typescript in node_modules instead of VSCode's built in TypeScript
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
