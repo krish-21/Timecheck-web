@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import { FormEvent, useContext, useEffect, useReducer } from "react";
+import { FormEvent, useContext, useReducer } from "react";
 import {
   Alert,
   AlertTitle,
@@ -35,10 +35,6 @@ const LoginPage = (): JSX.Element => {
 
   const { mutate: loginMutate, isLoading: isLoginMutationLoading } =
     usePostLoginMutation();
-
-  useEffect(() => {
-    console.log("isLoginMutationLoading: ", isLoginMutationLoading);
-  }, [isLoginMutationLoading]);
 
   const onChangeUsername = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

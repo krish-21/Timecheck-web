@@ -11,6 +11,7 @@ export const defaultAuthState: AuthStateInterface = {
 };
 
 export const defaultAuthContext: AuthContextInterface = {
+  isRestoringTokens: true,
   isAuthenticated: false,
 
   restoreAuthTokens: () => {

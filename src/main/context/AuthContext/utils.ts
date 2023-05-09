@@ -18,7 +18,7 @@ export const authReducer = (
     case AuthActionKind.SET_STORED_REFRESH_TOKEN:
       return {
         ...prevState,
-        isRestoringTokens: true,
+        isRestoringTokens: false,
         isAuthenticated: true,
         accessToken: null,
         refreshToken: action.payload.refreshToken,

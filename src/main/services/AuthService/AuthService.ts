@@ -32,6 +32,13 @@ class AuthService extends HTTPBaseService {
     });
     return data;
   }
+
+  public async postRefresh(refreshToken: string): Promise<AuthResponse> {
+    const { data } = await this.instance.post<AuthResponse>("/auth/refresh", {
+      refreshToken,
+    });
+    return data;
+  }
 }
 
 export const authService = AuthService.getInstance();
