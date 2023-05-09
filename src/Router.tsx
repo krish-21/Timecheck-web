@@ -5,6 +5,7 @@ import LoginPage from "main/routes/Authentication/LoginPage/LoginPage";
 import WatchesPage from "main/routes/WatchesPage/WatchesPage";
 import ErrorPage from "main/routes/ErrorPage/ErrorPage";
 import GuestRoute from "main/guards/GuestRoute/GuestRoute";
+import DefaultLayout from "main/layouts/DefaultLayout/DefaultLayout";
 
 const Router = (): JSX.Element => {
   return (
@@ -13,21 +14,39 @@ const Router = (): JSX.Element => {
         <Route
           path="/register"
           element={
-            <GuestRoute>
-              <RegisterPage />
-            </GuestRoute>
+            <DefaultLayout>
+              <GuestRoute>
+                <RegisterPage />
+              </GuestRoute>
+            </DefaultLayout>
           }
         />
         <Route
           path="/login"
           element={
-            <GuestRoute>
-              <LoginPage />
-            </GuestRoute>
+            <DefaultLayout>
+              <GuestRoute>
+                <LoginPage />
+              </GuestRoute>
+            </DefaultLayout>
           }
         />
-        <Route path="/watches" element={<WatchesPage />} />
-        <Route path="*" element={<ErrorPage />} />
+        <Route
+          path="/watches"
+          element={
+            <DefaultLayout>
+              <WatchesPage />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <DefaultLayout>
+              <ErrorPage />
+            </DefaultLayout>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
