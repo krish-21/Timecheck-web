@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm test -- --watchAll=false
+npm run testCI
 npm run lintStaged
+rm -rf dist
+npm run buildCI

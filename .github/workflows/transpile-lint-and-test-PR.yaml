@@ -1,0 +1,35 @@
+name: Transpile, Lint & Test PR
+
+run-name: "PR: ${{github.head_ref}} -> ${{github.base_ref}}"
+
+on: [pull_request]
+
+jobs:
+  Lint-and-Transpile:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Start Action
+        run: echo "Starting Action"
+
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Use Node 18.12.1
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.12.1"
+
+      - name: Install All Dependencies
+        run: npm ci
+
+      - name: Run Lint Staged
+        run: npx lint-staged --diff="origin/${{github.base_ref}}...origin/${{github.head_ref}}"
+
+      - name: Transpile TS
+        run: npm run buildCI
+
+      - name: Test
+        run: npm run testCI
