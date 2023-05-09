@@ -78,6 +78,7 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
   return (
     <AuthContext.Provider
       value={{
+        isAuthenticated: authState.isAuthenticated,
         restoreAuthTokens,
         setAuthTokens,
         removeAuthTokens,
