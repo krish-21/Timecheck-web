@@ -1,7 +1,18 @@
 {
   "name": "timecheck-web",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "Timecheck Frontend",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krish-21/Timecheck-Web.git"
+  },
+  "author": "Krishna Nanduri",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/krish-21/Timecheck-Web/issues"
+  },
+  "homepage": "https://github.com/krish-21/Timecheck-Web#readme",
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -18,6 +29,7 @@
     "@types/react-dom": "^18.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.11.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -25,7 +37,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "prepareHusky": "husky install",
     "lintStaged": "lint-staged",
@@ -63,7 +75,7 @@
     "prettier": "2.8.8"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": "eslint --config ./.eslintrc.js  --ignore-path ./.eslintignore --max-warnings=0",
-    "src/**": "prettier --check --config ./.prettierrc.js --ignore-path ./.prettierignore"
+    "src/**/*.{ts,tsx}": "eslint --max-warnings=0",
+    "src/**": "prettier --check --config ./.prettierrc.json --ignore-path ./.prettierignore"
   }
 }
