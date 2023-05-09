@@ -1,5 +1,11 @@
+import type { AxiosInstance } from "axios";
+
 import { HTTPBaseService } from "main/services/Base/BaseHTTPService";
-import type { AuthResponse } from "main/services/AuthService/interfaces";
+
+import type {
+  AuthResponse,
+  LogoutResponse,
+} from "main/services/AuthService/interfaces";
 
 class AuthService extends HTTPBaseService {
   private static classInstance?: AuthService;
@@ -37,6 +43,13 @@ class AuthService extends HTTPBaseService {
     const { data } = await this.instance.post<AuthResponse>("/auth/refresh", {
       refreshToken,
     });
+    return data;
+  }
+
+  public async postLogout(
+    axiosInstance: AxiosInstance
+  ): Promise<LogoutResponse> {
+    const { data } = await axiosInstance.post<LogoutResponse>("/auth/logout");
     return data;
   }
 }
