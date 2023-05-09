@@ -21,6 +21,17 @@ class AuthService extends HTTPBaseService {
     });
     return data;
   }
+
+  public async postLogin(
+    username: string,
+    password: string
+  ): Promise<AuthResponse> {
+    const { data } = await this.instance.post<AuthResponse>("/auth/login", {
+      username,
+      password,
+    });
+    return data;
+  }
 }
 
 export const authService = AuthService.getInstance();

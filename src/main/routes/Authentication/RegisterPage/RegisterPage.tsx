@@ -82,7 +82,7 @@ const RegisterPage = (): JSX.Element => {
           registerFormDispatch({
             type: AuthFormActionKind.RESET_FORM,
           });
-          navigate("/home");
+          navigate("/watches");
         },
         onError: (err) => {
           if (err instanceof AxiosError && err.response !== undefined) {
