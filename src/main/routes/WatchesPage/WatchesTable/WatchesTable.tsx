@@ -15,7 +15,7 @@ interface Props {
   totalRows: number;
   setCurrentPage: (page: number) => void;
   watches?: Watch[];
-  openDetailsModal: (watchToView: Watch) => void;
+  openDetailsModal: (watchIdToView: string) => void;
   openEditModal: (watchToEdit: Watch) => void;
   openDeleteModal: (watchToDelete: Watch) => void;
 }
@@ -66,7 +66,7 @@ const WatchesTable = (props: Props): JSX.Element => {
     return (
       <IconButton
         aria-label="view"
-        onClick={() => openDetailsModal(params.row)}
+        onClick={() => openDetailsModal(params.row.id)}
       >
         <PreviewIcon />
       </IconButton>
