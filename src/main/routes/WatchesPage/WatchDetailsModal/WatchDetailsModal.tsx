@@ -1,8 +1,9 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { Watch } from "../interfaces";
 import { Grid } from "@mui/material";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+
+import { Watch } from "main/routes/WatchesPage/interfaces";
 
 interface Props {
   isOpen: boolean;
