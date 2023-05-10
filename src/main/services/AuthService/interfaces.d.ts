@@ -1,6 +1,9 @@
 export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
+  userId: string;
+  tokens: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }
 
 export interface AuthMutationData {

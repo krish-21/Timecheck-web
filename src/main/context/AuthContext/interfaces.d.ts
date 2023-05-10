@@ -1,4 +1,5 @@
 export interface AuthStateInterface {
+  userId: string;
   isRestoringTokens: boolean;
   isAuthenticated: boolean;
   accessToken: string | null;
@@ -6,10 +7,15 @@ export interface AuthStateInterface {
 }
 
 export interface AuthContextInterface {
+  userId: string;
   isRestoringTokens: boolean;
   isAuthenticated: boolean;
   restoreAuthTokens: () => Promise<void>;
-  setAuthTokens: (accessToken: string, refreshToken: string) => Promise<void>;
+  setAuthData: (
+    userId: string,
+    accessToken: string,
+    refreshToken: string
+  ) => Promise<void>;
   removeAuthTokens: () => Promise<void>;
   getAccessToken: () => string;
   getRefreshToken: () => string;

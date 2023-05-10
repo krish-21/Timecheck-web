@@ -9,6 +9,10 @@ export type AuthAction =
       payload: { refreshToken: string | null };
     }
   | {
+      type: AuthActionKind.SET_USER_ID;
+      payload: { userId: string };
+    }
+  | {
       type: AuthActionKind.SET_TOKENS;
       payload: { accessToken: string | null; refreshToken: string | null };
     }

@@ -26,7 +26,11 @@ export const usePostRefreshTokenQuery = (): UseQueryResult<
     queryFn: async () => {
       const data = await authService.postRefresh(refreshToken);
 
-      await authContext.setAuthTokens(data.accessToken, data.refreshToken);
+      await authContext.setAuthData(
+        data.userId,
+        data.tokens.accessToken,
+        data.tokens.refreshToken
+      );
 
       return null;
     },
