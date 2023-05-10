@@ -5,9 +5,11 @@ import Typography from "@mui/material/Typography";
 import { FormEvent, useContext, useReducer } from "react";
 import { Alert, AlertTitle, Button, Grid, TextField } from "@mui/material";
 
+import { Watch } from "main/routes/WatchesPage/interfaces";
+
 import { AxiosContext } from "main/context/AxiosContext/AxiosContext";
 
-import { useCreateWatchMutation } from "main/services/WatchService/mutations";
+import { useEditWatchMutation } from "main/services/WatchService/mutations";
 
 import { validateForm } from "main/routes/WatchesPage/FormModals/WatchForm/utils";
 import { authFormReducer } from "main/routes/WatchesPage/FormModals/WatchForm/reducer";
@@ -17,6 +19,7 @@ import { watchFormDefaultValue } from "main/routes/WatchesPage/FormModals/WatchF
 interface Props {
   isOpen: boolean;
   handleClose: () => void;
+  watchToEdit: Watch;
 }
 
 const boxStyle = {
@@ -31,23 +34,25 @@ const boxStyle = {
   p: 4,
 };
 
-const CreateWatchModal = (props: Props): JSX.Element => {
-  const { isOpen, handleClose } = props;
+const EditWatchModal = (props: Props): JSX.Element => {
+  const { isOpen, handleClose, watchToEdit } = props;
 
   const { authAxios } = useContext(AxiosContext);
 
-  const [createFormState, createFormDispatch] = useReducer(
-    authFormReducer,
-    watchFormDefaultValue
-  );
+  const [editFormState, editFormDispatch] = useReducer(authFormReducer, {
+    ...watchFormDefaultValue,
+    name: watchToEdit.name,
+    brand: watchToEdit.brand,
+    reference: watchToEdit.reference,
+  });
 
-  const { mutate: createMutate, isLoading: isCreateMutationLoading } =
-    useCreateWatchMutation();
+  const { mutate: editMutate, isLoading: isEditMutationLoading } =
+    useEditWatchMutation();
 
   const onChangeName = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ): void => {
-    createFormDispatch({
+    editFormDispatch({
       type: WatchFormActionKind.UPDATE_NAME,
       payload: { name: event.target.value },
     });
@@ -56,7 +61,7 @@ const CreateWatchModal = (props: Props): JSX.Element => {
   const onChangeBrand = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ): void => {
-    createFormDispatch({
+    editFormDispatch({
       type: WatchFormActionKind.UPDATE_BRAND,
       payload: { brand: event.target.value },
     });
@@ -65,7 +70,7 @@ const CreateWatchModal = (props: Props): JSX.Element => {
   const onChangeReference = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ): void => {
-    createFormDispatch({
+    editFormDispatch({
       type: WatchFormActionKind.UPDATE_REFERENCE,
       payload: { reference: event.target.value },
     });
@@ -74,26 +79,27 @@ const CreateWatchModal = (props: Props): JSX.Element => {
   const submitData = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    createFormDispatch({
+    editFormDispatch({
       type: WatchFormActionKind.VALIDATE_FORM,
     });
 
     if (
       validateForm(
-        createFormState.name,
-        createFormState.brand,
-        createFormState.reference
+        editFormState.name,
+        editFormState.brand,
+        editFormState.reference
       ).isError
     ) {
       return;
     }
 
-    createMutate(
+    editMutate(
       {
         axiosInstance: authAxios,
-        name: createFormState.name,
-        brand: createFormState.brand,
-        reference: createFormState.reference,
+        watchId: watchToEdit.id,
+        name: editFormState.name,
+        brand: editFormState.brand,
+        reference: editFormState.reference,
       },
       {
         onSuccess: (data) => {
@@ -101,13 +107,13 @@ const CreateWatchModal = (props: Props): JSX.Element => {
         },
         onError: (err) => {
           if (err instanceof AxiosError && err.response !== undefined) {
-            createFormDispatch({
+            editFormDispatch({
               type: WatchFormActionKind.SET_SERVER_ERROR,
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
               payload: { message: err.response.data.error.message },
             });
           } else {
-            createFormDispatch({
+            editFormDispatch({
               type: WatchFormActionKind.SET_SERVER_ERROR,
               payload: { message: "Server Error" },
             });
@@ -126,7 +132,7 @@ const CreateWatchModal = (props: Props): JSX.Element => {
     >
       <Box sx={boxStyle}>
         <Typography id="modal-modal-title" variant="h5" component="h2">
-          Create Watch
+          Edit Watch
         </Typography>
         <Box component="form" noValidate onSubmit={submitData} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -138,11 +144,11 @@ const CreateWatchModal = (props: Props): JSX.Element => {
                 label="Name"
                 name="Name"
                 autoFocus={true}
-                disabled={isCreateMutationLoading}
-                value={createFormState.name}
+                disabled={isEditMutationLoading}
+                value={editFormState.name}
                 onChange={onChangeName}
-                error={createFormState.nameError.isError}
-                helperText={createFormState.nameError.message}
+                error={editFormState.nameError.isError}
+                helperText={editFormState.nameError.message}
               />
             </Grid>
             <Grid item xs={12}>
@@ -152,11 +158,11 @@ const CreateWatchModal = (props: Props): JSX.Element => {
                 id="brand"
                 name="Brand"
                 label="Brand"
-                disabled={isCreateMutationLoading}
-                value={createFormState.brand}
+                disabled={isEditMutationLoading}
+                value={editFormState.brand}
                 onChange={onChangeBrand}
-                error={createFormState.brandError.isError}
-                helperText={createFormState.brandError.message}
+                error={editFormState.brandError.isError}
+                helperText={editFormState.brandError.message}
               />
             </Grid>
             <Grid item xs={12}>
@@ -166,12 +172,22 @@ const CreateWatchModal = (props: Props): JSX.Element => {
                 id="reference"
                 name="Reference"
                 label="Reference"
-                disabled={isCreateMutationLoading}
-                value={createFormState.reference}
+                disabled={isEditMutationLoading}
+                value={editFormState.reference}
                 onChange={onChangeReference}
-                error={createFormState.referenceError.isError}
-                helperText={createFormState.referenceError.message}
+                error={editFormState.referenceError.isError}
+                helperText={editFormState.referenceError.message}
               />
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Typography component="p">Updated At:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography component="p">
+                  {watchToEdit.updatedAt.toLocaleString("en-GB")}
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
           <Button
@@ -179,14 +195,14 @@ const CreateWatchModal = (props: Props): JSX.Element => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            disabled={isCreateMutationLoading}
+            disabled={isEditMutationLoading}
           >
-            Create
+            Save
           </Button>
-          {createFormState.serverError.isError && (
+          {editFormState.serverError.isError && (
             <Alert severity="error" style={{ marginTop: "1%" }}>
               <AlertTitle>Error</AlertTitle>
-              {createFormState.serverError.message}
+              {editFormState.serverError.message}
             </Alert>
           )}
         </Box>
@@ -195,4 +211,4 @@ const CreateWatchModal = (props: Props): JSX.Element => {
   );
 };
 
-export default CreateWatchModal;
+export default EditWatchModal;

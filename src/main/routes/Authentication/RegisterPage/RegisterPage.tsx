@@ -173,7 +173,7 @@ const RegisterPage = (): JSX.Element => {
             </Grid>
           </Grid>
           {registerFormState.serverError.isError && (
-            <Alert severity="error" onClose={() => {}}>
+            <Alert severity="error" style={{ marginTop: "1%" }}>
               <AlertTitle>Error</AlertTitle>
               {registerFormState.serverError.message}
             </Alert>

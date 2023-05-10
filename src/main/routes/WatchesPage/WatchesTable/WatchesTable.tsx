@@ -16,6 +16,7 @@ interface Props {
   setCurrentPage: (page: number) => void;
   watches?: Watch[];
   openDetailsModal: (watchToView: Watch) => void;
+  openEditModal: (watchToEdit: Watch) => void;
 }
 
 const WatchesTable = (props: Props): JSX.Element => {
@@ -27,6 +28,7 @@ const WatchesTable = (props: Props): JSX.Element => {
     setCurrentPage,
     watches,
     openDetailsModal,
+    openEditModal,
   } = props;
 
   const { userId } = useContext(AuthContext);
@@ -43,7 +45,10 @@ const WatchesTable = (props: Props): JSX.Element => {
     if (userId === params.row.userId) {
       return (
         <div>
-          <IconButton aria-label="edit">
+          <IconButton
+            aria-label="edit"
+            onClick={() => openEditModal(params.row)}
+          >
             <EditIcon />
           </IconButton>
           <IconButton aria-label="delete">
