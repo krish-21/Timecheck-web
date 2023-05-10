@@ -6,6 +6,7 @@ import WatchesPage from "main/routes/WatchesPage/WatchesPage";
 import ErrorPage from "main/routes/ErrorPage/ErrorPage";
 import GuestRoute from "main/guards/GuestRoute/GuestRoute";
 import DefaultLayout from "main/layouts/DefaultLayout/DefaultLayout";
+import ProtectedRoute from "main/guards/ProtectedRoute/ProtectedRoute";
 
 const Router = (): JSX.Element => {
   return (
@@ -35,7 +36,9 @@ const Router = (): JSX.Element => {
           path="/watches"
           element={
             <DefaultLayout>
-              <WatchesPage />
+              <ProtectedRoute>
+                <WatchesPage />
+              </ProtectedRoute>
             </DefaultLayout>
           }
         />
