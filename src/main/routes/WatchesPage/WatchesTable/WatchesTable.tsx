@@ -33,7 +33,7 @@ const WatchesTable = (props: Props): JSX.Element => {
     openDeleteModal,
   } = props;
 
-  const { userId } = useContext(AuthContext);
+  const { authState } = useContext(AuthContext);
 
   const [totalRowsState, setTotalRowsState] = useState(totalRows);
 
@@ -44,7 +44,7 @@ const WatchesTable = (props: Props): JSX.Element => {
   }, [totalRows, setTotalRowsState]);
 
   const renderActionsCell = (params: GridCellParams) => {
-    if (userId === params.row.userId) {
+    if (authState.userId === params.row.userId) {
       return (
         <div>
           <IconButton

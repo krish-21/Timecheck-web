@@ -11,4 +11,7 @@ class AppConfig {
   }
 }
 
-export const appConfig = new AppConfig(process.env, process.env.API_HOST);
+export const appConfig = new AppConfig(
+  process.env,
+  process.env.REACT_APP_API_HOST
+);

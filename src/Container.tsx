@@ -7,7 +7,7 @@ import { usePostRefreshTokenQuery } from "main/services/AuthService/queries";
 
 const Container = (): JSX.Element => {
   const authContext = useContext(AuthContext);
-  const isRestoringTokens = authContext.isRestoringTokens;
+  const isRestoringTokens = authContext.authState.isRestoringTokens;
 
   useEffect(() => {
     void authContext.restoreAuthTokens();

@@ -7,15 +7,12 @@ export const defaultAuthState: AuthStateInterface = {
   userId: "",
   isRestoringTokens: true,
   isAuthenticated: false,
-  accessToken: null,
-  refreshToken: null,
+  accessToken: "",
+  refreshToken: "",
 };
 
 export const defaultAuthContext: AuthContextInterface = {
-  userId: "",
-  isRestoringTokens: true,
-  isAuthenticated: false,
-
+  authState: defaultAuthState,
   restoreAuthTokens: () => {
     throw new Error("INSIDE DEFAULT restoreAuthTokens!");
   },
@@ -28,11 +25,5 @@ export const defaultAuthContext: AuthContextInterface = {
   },
   removeAuthTokens: () => {
     throw new Error("INSIDE DEFAULT removeAuthTokens!");
-  },
-  getAccessToken: () => {
-    throw new Error("INSIDE DEFAULT getAccessToken!");
-  },
-  getRefreshToken: () => {
-    throw new Error("INSIDE DEFAULT getRefreshToken!");
   },
 };

@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { useLocation, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "main/context/AuthContext/AuthContext";
 
@@ -38,8 +38,8 @@ const DefaultLayout = (props: Props): JSX.Element => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Timecheck
             </Typography>
-            {authContext.isAuthenticated && <LogoutComponent />}
-            {!authContext.isAuthenticated &&
+            {authContext.authState.isAuthenticated && <LogoutComponent />}
+            {!authContext.authState.isAuthenticated &&
               (location.pathname === "/login" ? (
                 <Button color="inherit" onClick={navigateToWatches}>
                   Watches

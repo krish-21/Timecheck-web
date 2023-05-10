@@ -12,7 +12,7 @@ const ProtectedRoute = (props: Props): JSX.Element => {
 
   const authContext = useContext(AuthContext);
 
-  if (!authContext.isAuthenticated) {
+  if (!authContext.authState.isAuthenticated) {
     return <Navigate to="/login" />;
   }
 

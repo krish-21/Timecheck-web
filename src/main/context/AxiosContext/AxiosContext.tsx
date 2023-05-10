@@ -44,7 +44,7 @@ const AxiosProvider = ({ children }: Props): JSX.Element => {
         ...config.headers,
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${authContext.getAccessToken()}`,
+        Authorization: `Bearer ${authContext.authState.accessToken}`,
       };
 
       return config;

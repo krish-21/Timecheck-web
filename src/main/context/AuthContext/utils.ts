@@ -15,12 +15,12 @@ export const authReducer = (
         accessToken: null,
         refreshToken: null,
       };
-    case AuthActionKind.SET_STORED_REFRESH_TOKEN:
+    case AuthActionKind.SET_STORED_TOKENS:
       return {
         ...prevState,
         isRestoringTokens: false,
         isAuthenticated: true,
-        accessToken: null,
+        accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
       };
     case AuthActionKind.SET_USER_ID:
