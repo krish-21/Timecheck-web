@@ -12,11 +12,12 @@ interface Props {
   isLoading: boolean;
   pageSize: number;
   currentPage: number;
-  totalRows?: number;
+  totalRows: number;
   setCurrentPage: (page: number) => void;
   watches?: Watch[];
   openDetailsModal: (watchToView: Watch) => void;
   openEditModal: (watchToEdit: Watch) => void;
+  openDeleteModal: (watchToDelete: Watch) => void;
 }
 
 const WatchesTable = (props: Props): JSX.Element => {
@@ -29,6 +30,7 @@ const WatchesTable = (props: Props): JSX.Element => {
     watches,
     openDetailsModal,
     openEditModal,
+    openDeleteModal,
   } = props;
 
   const { userId } = useContext(AuthContext);
@@ -51,7 +53,10 @@ const WatchesTable = (props: Props): JSX.Element => {
           >
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="delete">
+          <IconButton
+            aria-label="delete"
+            onClick={() => openDeleteModal(params.row)}
+          >
             <DeleteIcon />
           </IconButton>
         </div>
@@ -90,6 +95,7 @@ const WatchesTable = (props: Props): JSX.Element => {
       loading={isLoading}
       paginationMode="server"
       paginationModel={{ page: currentPage, pageSize: pageSize }}
+      pageSizeOptions={[pageSize]}
       onPaginationModelChange={({ page }) => {
         setCurrentPage(page);
       }}

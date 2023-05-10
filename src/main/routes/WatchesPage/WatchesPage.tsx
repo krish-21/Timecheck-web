@@ -5,14 +5,15 @@ import type { Watch } from "main/routes/WatchesPage/interfaces";
 
 import { AxiosContext } from "main/context/AxiosContext/AxiosContext";
 
+import { PAGE_SIZE } from "main/routes/WatchesPage/constants";
+
 import { useGetAllWatchesQuery } from "main/services/WatchService/queries";
 
 import WatchesTable from "main/routes/WatchesPage/WatchesTable/WatchesTable";
 import WatchDetailsModal from "main/routes/WatchesPage/WatchDetailsModal/WatchDetailsModal";
 import CreateWatchModal from "main/routes/WatchesPage/FormModals/CreateWatchModal/CreateWatchModal";
 import EditWatchModal from "main/routes/WatchesPage/FormModals/EditWatchModal/EditWatchModal";
-
-const PAGE_SIZE = 2;
+import DeleteWatchModal from "main/routes/WatchesPage/DeleteWatchModal/DeleteWatchModal";
 
 const WatchesPage = (): JSX.Element => {
   const { authAxios } = useContext(AxiosContext);
@@ -49,6 +50,19 @@ const WatchesPage = (): JSX.Element => {
     setIsEditModalOpen(false);
   };
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [watchToDelete, setIsWatchToDelete] = useState<Watch | undefined>();
+
+  const openDeleteModal = (watch: Watch) => {
+    setIsWatchToDelete(watch);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsWatchToDelete(undefined);
+    setIsDeleteModalOpen(false);
+  };
+
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false);
   const [watchToView, setIsWatchToView] = useState<Watch | undefined>();
 
@@ -74,6 +88,14 @@ const WatchesPage = (): JSX.Element => {
           isOpen={isEditModalOpen}
           handleClose={closeEditModal}
           watchToEdit={watchToEdit}
+        />
+      )}
+
+      {watchToDelete !== undefined && (
+        <DeleteWatchModal
+          isOpen={isDeleteModalOpen}
+          handleClose={closeDeleteModal}
+          watchToDelete={watchToDelete}
         />
       )}
 
@@ -107,11 +129,12 @@ const WatchesPage = (): JSX.Element => {
         isLoading={isLoading}
         pageSize={PAGE_SIZE}
         currentPage={currentPage}
-        totalRows={data?.totalItems}
+        totalRows={data?.totalItems ? data.totalItems : 0}
         setCurrentPage={setCurrentPage}
         watches={data?.items}
         openDetailsModal={openDetailsModal}
         openEditModal={openEditModal}
+        openDeleteModal={openDeleteModal}
       />
     </div>
   );
