@@ -30,6 +30,16 @@ class WatchService {
     return data;
   }
 
+  public async getWatch(
+    axiosInstance: AxiosInstance,
+    watchId: string
+  ): Promise<WatchResponse> {
+    const { data } = await axiosInstance.get<WatchResponse>(
+      `/watches/${watchId}`
+    );
+    return data;
+  }
+
   public async createWatch(
     axiosInstance: AxiosInstance,
     name: string,

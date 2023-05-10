@@ -2,13 +2,14 @@ import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-
-import { Watch } from "main/routes/WatchesPage/interfaces";
+import { useGetWatchQuery } from "main/services/WatchService/queries";
+import { useContext } from "react";
+import { AxiosContext } from "main/context/AxiosContext/AxiosContext";
 
 interface Props {
   isOpen: boolean;
   handleClose: () => void;
-  watch: Watch;
+  watchId: string;
 }
 
 const boxStyle = {
@@ -24,7 +25,11 @@ const boxStyle = {
 };
 
 const WatchDetailsModal = (props: Props): JSX.Element => {
-  const { isOpen, handleClose, watch } = props;
+  const { isOpen, handleClose, watchId } = props;
+
+  const { authAxios } = useContext(AxiosContext);
+
+  const { data } = useGetWatchQuery(authAxios, watchId);
 
   return (
     <Modal
@@ -33,45 +38,49 @@ const WatchDetailsModal = (props: Props): JSX.Element => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={boxStyle}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {`${watch.brand} ${watch.name}`}
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Typography component="p">Name:</Typography>
+      {data !== undefined ? (
+        <Box sx={boxStyle}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {`${data.brand} ${data.name}`}
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography component="p">Name:</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography component="p">{data.name}</Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Typography component="p">{watch.name}</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography component="p">Brand:</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography component="p">{data.brand}</Typography>
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Typography component="p">Brand:</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography component="p">Reference:</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography component="p">{data.reference}</Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Typography component="p">{watch.brand}</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography component="p">Updated At:</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography component="p">
+                {data.updatedAt.toLocaleString("en-GB")}
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Typography component="p">Reference:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography component="p">{watch.reference}</Typography>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Typography component="p">Updated At:</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography component="p">
-              {watch.updatedAt.toLocaleString("en-GB")}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      ) : (
+        <Typography component="p">Loading</Typography>
+      )}
     </Modal>
   );
 };

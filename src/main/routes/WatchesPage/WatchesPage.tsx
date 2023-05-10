@@ -31,9 +31,9 @@ const WatchesPage = (): JSX.Element => {
   const [watchToDelete, setIsWatchToDelete] = useState<Watch | undefined>();
 
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false);
-  const [watchToView, setIsWatchToView] = useState<Watch | undefined>();
+  const [watchIdToView, setIsWatchIdToView] = useState<string | undefined>();
 
-  const { data, isLoading } = useGetAllWatchesQuery(
+  const { data, isLoading, refetch } = useGetAllWatchesQuery(
     authAxios,
     PAGE_SIZE,
     currentPage * PAGE_SIZE,
@@ -72,13 +72,13 @@ const WatchesPage = (): JSX.Element => {
     setIsDeleteModalOpen(false);
   };
 
-  const openDetailsModal = (watch: Watch) => {
-    setIsWatchToView(watch);
+  const openDetailsModal = (watchId: string) => {
+    setIsWatchIdToView(watchId);
     setIsDetailsModalOpen(true);
   };
 
   const closeDetailsModal = () => {
-    setIsWatchToView(undefined);
+    setIsWatchIdToView(undefined);
     setIsDetailsModalOpen(false);
   };
 
@@ -105,16 +105,17 @@ const WatchesPage = (): JSX.Element => {
         />
       )}
 
-      {watchToView !== undefined && (
+      {watchIdToView !== undefined && (
         <WatchDetailsModal
           isOpen={isDetailsModalOpen}
           handleClose={closeDetailsModal}
-          watch={watchToView}
+          watchId={watchIdToView}
         />
       )}
 
       <WatchesHeader
         showOnlyMyWatches={showOnlyMyWatches}
+        refetch={refetch}
         toggleShowOnlyMyWatches={toggleShowOnlyMyWatches}
         openCreateModal={openCreateModal}
       />
