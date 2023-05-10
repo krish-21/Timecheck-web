@@ -1,10 +1,15 @@
 import { useContext, useState } from "react";
+import { Button, Grid, Typography } from "@mui/material";
+
+import type { Watch } from "main/routes/WatchesPage/interfaces";
 
 import { AxiosContext } from "main/context/AxiosContext/AxiosContext";
+
 import { useGetAllWatchesQuery } from "main/services/WatchService/queries";
-import WatchesTable from "./WatchesTable/WatchesTable";
-import WatchDetailsModal from "./WatchDetailsModal/WatchDetailsModal";
-import { Watch } from "./interfaces";
+
+import WatchesTable from "main/routes/WatchesPage/WatchesTable/WatchesTable";
+import WatchDetailsModal from "main/routes/WatchesPage/WatchDetailsModal/WatchDetailsModal";
+import CreateWatchModal from "main/routes/WatchesPage/FormModals/CreateWatchModal/CreateWatchModal";
 
 const PAGE_SIZE = 2;
 
@@ -20,22 +25,36 @@ const WatchesPage = (): JSX.Element => {
     false
   );
 
-  const [isDetailsModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+
+  const openCreateModal = () => {
+    setIsCreateModalOpen(true);
+  };
+
+  const closeCreateModal = () => {
+    setIsCreateModalOpen(false);
+  };
+
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false);
   const [watchToView, setIsWatchToView] = useState<Watch | undefined>();
 
   const openDetailsModal = (watch: Watch) => {
     setIsWatchToView(watch);
-    setIsModalOpen(true);
+    setIsDetailsModalOpen(true);
   };
 
   const closeDetailsModal = () => {
     setIsWatchToView(undefined);
-    setIsModalOpen(false);
+    setIsDetailsModalOpen(false);
   };
 
   return (
     <div>
-      <h1>Watches</h1>
+      <CreateWatchModal
+        isOpen={isCreateModalOpen}
+        handleClose={closeCreateModal}
+      />
+
       {watchToView !== undefined && (
         <WatchDetailsModal
           isOpen={isDetailsModalOpen}
@@ -43,6 +62,25 @@ const WatchesPage = (): JSX.Element => {
           watch={watchToView}
         />
       )}
+
+      <Grid
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        style={{ marginTop: "1%", marginBottom: "1%" }}
+      >
+        <Grid item>
+          <Typography id="modal-modal-title" variant="h3" component="h1">
+            Watches
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Button variant="contained" onClick={openCreateModal}>
+            Create
+          </Button>
+        </Grid>
+      </Grid>
+
       <WatchesTable
         isLoading={isLoading}
         pageSize={PAGE_SIZE}
