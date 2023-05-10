@@ -10,6 +10,7 @@ import { useGetAllWatchesQuery } from "main/services/WatchService/queries";
 import WatchesTable from "main/routes/WatchesPage/WatchesTable/WatchesTable";
 import WatchDetailsModal from "main/routes/WatchesPage/WatchDetailsModal/WatchDetailsModal";
 import CreateWatchModal from "main/routes/WatchesPage/FormModals/CreateWatchModal/CreateWatchModal";
+import EditWatchModal from "main/routes/WatchesPage/FormModals/EditWatchModal/EditWatchModal";
 
 const PAGE_SIZE = 2;
 
@@ -35,6 +36,19 @@ const WatchesPage = (): JSX.Element => {
     setIsCreateModalOpen(false);
   };
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [watchToEdit, setIsWatchToEdit] = useState<Watch | undefined>();
+
+  const openEditModal = (watch: Watch) => {
+    setIsWatchToEdit(watch);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsWatchToEdit(undefined);
+    setIsEditModalOpen(false);
+  };
+
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false);
   const [watchToView, setIsWatchToView] = useState<Watch | undefined>();
 
@@ -54,6 +68,14 @@ const WatchesPage = (): JSX.Element => {
         isOpen={isCreateModalOpen}
         handleClose={closeCreateModal}
       />
+
+      {watchToEdit !== undefined && (
+        <EditWatchModal
+          isOpen={isEditModalOpen}
+          handleClose={closeEditModal}
+          watchToEdit={watchToEdit}
+        />
+      )}
 
       {watchToView !== undefined && (
         <WatchDetailsModal
@@ -89,6 +111,7 @@ const WatchesPage = (): JSX.Element => {
         setCurrentPage={setCurrentPage}
         watches={data?.items}
         openDetailsModal={openDetailsModal}
+        openEditModal={openEditModal}
       />
     </div>
   );

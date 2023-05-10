@@ -169,7 +169,7 @@ const LoginPage = (): JSX.Element => {
             </Grid>
           </Grid>
           {loginFormState.serverError.isError && (
-            <Alert severity="error">
+            <Alert severity="error" style={{ marginTop: "1%" }}>
               <AlertTitle>Error</AlertTitle>
               {loginFormState.serverError.message}
             </Alert>
