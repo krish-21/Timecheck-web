@@ -75,7 +75,11 @@ const LoginPage = (): JSX.Element => {
       },
       {
         onSuccess: (data) => {
-          void authContext.setAuthTokens(data.accessToken, data.refreshToken);
+          void authContext.setAuthData(
+            data.userId,
+            data.tokens.accessToken,
+            data.tokens.refreshToken
+          );
           loginFormDispatch({
             type: AuthFormActionKind.RESET_FORM,
           });

@@ -38,7 +38,8 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
     });
   };
 
-  const setAuthTokens = async (
+  const setAuthData = async (
+    userId: string,
     accessToken: string,
     refreshToken: string
   ): Promise<void> => {
@@ -46,6 +47,11 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
 
     localStorage.setItem(AuthTokenKind.ACCESS_TOKEN, accessToken);
     localStorage.setItem(AuthTokenKind.REFRESH_TOKEN, refreshToken);
+
+    authDispatch({
+      type: AuthActionKind.SET_USER_ID,
+      payload: { userId },
+    });
 
     authDispatch({
       type: AuthActionKind.SET_TOKENS,
@@ -73,10 +79,11 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
   return (
     <AuthContext.Provider
       value={{
+        userId: authState.userId,
         isRestoringTokens: authState.isRestoringTokens,
         isAuthenticated: authState.isAuthenticated,
         restoreAuthTokens,
-        setAuthTokens,
+        setAuthData,
         removeAuthTokens,
         getAccessToken,
         getRefreshToken,

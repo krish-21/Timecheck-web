@@ -1,10 +1,12 @@
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { GridColDef, DataGrid } from "@mui/x-data-grid";
+import PreviewIcon from "@mui/icons-material/Preview";
+import { GridColDef, DataGrid, GridCellParams } from "@mui/x-data-grid";
 
 import { Watch } from "main/routes/WatchesPage/interfaces";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "main/context/AuthContext/AuthContext";
 
 interface Props {
   isLoading: boolean;
@@ -13,6 +15,7 @@ interface Props {
   totalRows?: number;
   setCurrentPage: (page: number) => void;
   watches?: Watch[];
+  openDetailsModal: (watchToView: Watch) => void;
 }
 
 const WatchesTable = (props: Props): JSX.Element => {
@@ -23,7 +26,10 @@ const WatchesTable = (props: Props): JSX.Element => {
     totalRows,
     setCurrentPage,
     watches,
+    openDetailsModal,
   } = props;
+
+  const { userId } = useContext(AuthContext);
 
   const [totalRowsState, setTotalRowsState] = useState(totalRows);
 
@@ -33,31 +39,44 @@ const WatchesTable = (props: Props): JSX.Element => {
     );
   }, [totalRows, setTotalRowsState]);
 
+  const renderActionsCell = (params: GridCellParams) => {
+    if (userId === params.row.userId) {
+      return (
+        <div>
+          <IconButton aria-label="edit">
+            <EditIcon />
+          </IconButton>
+          <IconButton aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </div>
+      );
+    }
+
+    return (
+      <IconButton
+        aria-label="view"
+        onClick={() => openDetailsModal(params.row)}
+      >
+        <PreviewIcon />
+      </IconButton>
+    );
+  };
+
   const columns: GridColDef[] = [
     {
       field: "name",
       headerName: "Name",
       flex: 0.8,
       renderCell: (params) => {
-        return <p>{params.value}</p>;
+        return <p>{params.row.name}</p>;
       },
     },
     {
       field: "actions",
       headerName: "Actions",
       flex: 0.2,
-      renderCell: () => {
-        return (
-          <div>
-            <IconButton aria-label="edit">
-              <EditIcon />
-            </IconButton>
-            <IconButton aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </div>
-        );
-      },
+      renderCell: renderActionsCell,
     },
   ];
 

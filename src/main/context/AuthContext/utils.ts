@@ -23,6 +23,11 @@ export const authReducer = (
         accessToken: null,
         refreshToken: action.payload.refreshToken,
       };
+    case AuthActionKind.SET_USER_ID:
+      return {
+        ...prevState,
+        userId: action.payload.userId,
+      };
     case AuthActionKind.SET_TOKENS:
       return {
         ...prevState,

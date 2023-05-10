@@ -78,7 +78,11 @@ const RegisterPage = (): JSX.Element => {
       },
       {
         onSuccess: (data) => {
-          void authContext.setAuthTokens(data.accessToken, data.refreshToken);
+          void authContext.setAuthData(
+            data.userId,
+            data.tokens.accessToken,
+            data.tokens.refreshToken
+          );
           registerFormDispatch({
             type: AuthFormActionKind.RESET_FORM,
           });

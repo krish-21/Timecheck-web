@@ -4,6 +4,7 @@ import type {
 } from "main/context/AuthContext/interfaces";
 
 export const defaultAuthState: AuthStateInterface = {
+  userId: "",
   isRestoringTokens: true,
   isAuthenticated: false,
   accessToken: null,
@@ -11,13 +12,18 @@ export const defaultAuthState: AuthStateInterface = {
 };
 
 export const defaultAuthContext: AuthContextInterface = {
+  userId: "",
   isRestoringTokens: true,
   isAuthenticated: false,
 
   restoreAuthTokens: () => {
     throw new Error("INSIDE DEFAULT restoreAuthTokens!");
   },
-  setAuthTokens: (_accessToken: string, _refreshToken: string) => {
+  setAuthData: (
+    _userId: string,
+    _accessToken: string,
+    _refreshToken: string
+  ) => {
     throw new Error("INSIDE DEFAULT setAuthTokens!");
   },
   removeAuthTokens: () => {
