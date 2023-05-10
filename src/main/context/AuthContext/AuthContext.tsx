@@ -33,8 +33,8 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
     validateTokens(accessToken, refreshToken);
 
     authDispatch({
-      type: AuthActionKind.SET_STORED_REFRESH_TOKEN,
-      payload: { refreshToken },
+      type: AuthActionKind.SET_STORED_TOKENS,
+      payload: { accessToken, refreshToken },
     });
   };
 
@@ -68,25 +68,13 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
     });
   };
 
-  const getAccessToken = (): string => {
-    return authState.accessToken !== null ? authState.accessToken : "";
-  };
-
-  const getRefreshToken = (): string => {
-    return authState.refreshToken !== null ? authState.refreshToken : "";
-  };
-
   return (
     <AuthContext.Provider
       value={{
-        userId: authState.userId,
-        isRestoringTokens: authState.isRestoringTokens,
-        isAuthenticated: authState.isAuthenticated,
+        authState,
         restoreAuthTokens,
         setAuthData,
         removeAuthTokens,
-        getAccessToken,
-        getRefreshToken,
       }}
     >
       {children}

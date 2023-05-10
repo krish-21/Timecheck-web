@@ -7,9 +7,7 @@ export interface AuthStateInterface {
 }
 
 export interface AuthContextInterface {
-  userId: string;
-  isRestoringTokens: boolean;
-  isAuthenticated: boolean;
+  authState: AuthStateInterface;
   restoreAuthTokens: () => Promise<void>;
   setAuthData: (
     userId: string,
@@ -17,6 +15,4 @@ export interface AuthContextInterface {
     refreshToken: string
   ) => Promise<void>;
   removeAuthTokens: () => Promise<void>;
-  getAccessToken: () => string;
-  getRefreshToken: () => string;
 }

@@ -16,15 +16,17 @@ export const usePostRefreshTokenQuery = (): UseQueryResult<
 > => {
   const queryClient = useQueryClient();
   const authContext = useContext(AuthContext);
-  const refreshToken = authContext.getRefreshToken();
-  const isRestoringTokens = authContext.isRestoringTokens;
-  const isAuthenticated = authContext.isAuthenticated;
+  const refreshToken = authContext.authState.refreshToken;
+  const isRestoringTokens = authContext.authState.isRestoringTokens;
+  const isAuthenticated = authContext.authState.isAuthenticated;
 
   return useQuery({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: ["refresh-token"],
     queryFn: async () => {
-      const data = await authService.postRefresh(refreshToken);
+      const data = await authService.postRefresh(
+        refreshToken === null ? "" : refreshToken
+      );
 
       await authContext.setAuthData(
         data.userId,
