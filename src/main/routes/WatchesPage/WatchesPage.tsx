@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { Button, Grid, Typography } from "@mui/material";
 
 import type { Watch } from "main/routes/WatchesPage/interfaces";
 
@@ -14,20 +13,36 @@ import WatchDetailsModal from "main/routes/WatchesPage/WatchDetailsModal/WatchDe
 import CreateWatchModal from "main/routes/WatchesPage/FormModals/CreateWatchModal/CreateWatchModal";
 import EditWatchModal from "main/routes/WatchesPage/FormModals/EditWatchModal/EditWatchModal";
 import DeleteWatchModal from "main/routes/WatchesPage/DeleteWatchModal/DeleteWatchModal";
+import WatchesHeader from "./WatchesHeader/WatchesHeader";
 
 const WatchesPage = (): JSX.Element => {
   const { authAxios } = useContext(AxiosContext);
 
+  const [showOnlyMyWatches, setShowOnlyMyWatches] = useState<boolean>(false);
+
   const [currentPage, setCurrentPage] = useState<number>(0);
+
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [watchToEdit, setIsWatchToEdit] = useState<Watch | undefined>();
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [watchToDelete, setIsWatchToDelete] = useState<Watch | undefined>();
+
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false);
+  const [watchToView, setIsWatchToView] = useState<Watch | undefined>();
 
   const { data, isLoading } = useGetAllWatchesQuery(
     authAxios,
     PAGE_SIZE,
     currentPage * PAGE_SIZE,
-    false
+    showOnlyMyWatches
   );
 
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+  const toggleShowOnlyMyWatches = () => {
+    setShowOnlyMyWatches((prevShowOnlyMyWatches) => !prevShowOnlyMyWatches);
+  };
 
   const openCreateModal = () => {
     setIsCreateModalOpen(true);
@@ -36,9 +51,6 @@ const WatchesPage = (): JSX.Element => {
   const closeCreateModal = () => {
     setIsCreateModalOpen(false);
   };
-
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-  const [watchToEdit, setIsWatchToEdit] = useState<Watch | undefined>();
 
   const openEditModal = (watch: Watch) => {
     setIsWatchToEdit(watch);
@@ -50,9 +62,6 @@ const WatchesPage = (): JSX.Element => {
     setIsEditModalOpen(false);
   };
 
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [watchToDelete, setIsWatchToDelete] = useState<Watch | undefined>();
-
   const openDeleteModal = (watch: Watch) => {
     setIsWatchToDelete(watch);
     setIsDeleteModalOpen(true);
@@ -62,9 +71,6 @@ const WatchesPage = (): JSX.Element => {
     setIsWatchToDelete(undefined);
     setIsDeleteModalOpen(false);
   };
-
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false);
-  const [watchToView, setIsWatchToView] = useState<Watch | undefined>();
 
   const openDetailsModal = (watch: Watch) => {
     setIsWatchToView(watch);
@@ -107,23 +113,11 @@ const WatchesPage = (): JSX.Element => {
         />
       )}
 
-      <Grid
-        container
-        justifyContent="space-between"
-        alignItems="center"
-        style={{ marginTop: "1%", marginBottom: "1%" }}
-      >
-        <Grid item>
-          <Typography id="modal-modal-title" variant="h3" component="h1">
-            Watches
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" onClick={openCreateModal}>
-            Create
-          </Button>
-        </Grid>
-      </Grid>
+      <WatchesHeader
+        showOnlyMyWatches={showOnlyMyWatches}
+        toggleShowOnlyMyWatches={toggleShowOnlyMyWatches}
+        openCreateModal={openCreateModal}
+      />
 
       <WatchesTable
         isLoading={isLoading}

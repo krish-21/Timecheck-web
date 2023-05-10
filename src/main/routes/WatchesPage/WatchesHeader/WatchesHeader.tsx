@@ -1,12 +1,13 @@
 import { Button, Grid, Typography } from "@mui/material";
 
 interface Props {
+  showOnlyMyWatches: boolean;
   openCreateModal: () => void;
   toggleShowOnlyMyWatches: () => void;
 }
 
 const WatchesHeader = (props: Props): JSX.Element => {
-  const { openCreateModal, toggleShowOnlyMyWatches } = props;
+  const { showOnlyMyWatches, openCreateModal, toggleShowOnlyMyWatches } = props;
 
   return (
     <Grid
@@ -21,7 +22,10 @@ const WatchesHeader = (props: Props): JSX.Element => {
         </Typography>
       </Grid>
       <Grid item>
-        <Button variant="outlined" onClick={toggleShowOnlyMyWatches}>
+        <Button
+          variant={showOnlyMyWatches ? "contained" : "outlined"}
+          onClick={toggleShowOnlyMyWatches}
+        >
           My Watches
         </Button>
       </Grid>
